@@ -2,6 +2,7 @@ import './App.css';
 
 import React, { useState, useRef } from 'react';
 
+import GoogleButton from 'react-google-button';
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import 'firebase/compat/auth';
@@ -29,8 +30,8 @@ function App() {
 
   return (
     <div className="AppNav">
-      <header>
-        <h1>⚛️🔥💬</h1>
+      <header className='flex text-white text-2xl bg-green-500 justify-between text-center'>
+        <h1 style={{fontStyle: 'platypus'}} className='content-center mx-auto'>MegaChat</h1>
         <SignOut />
       </header>
       
@@ -48,7 +49,7 @@ function SignIn() {
   }
   return (
     <>
-    <button onClick={signInWithGoogle}>Sign in with Google</button>
+    <GoogleButton onClick={signInWithGoogle} className='sign-in'/>
     <p>Do not violate the community guidelines or you will be banned for life!</p>
     </>
   );
@@ -56,7 +57,7 @@ function SignIn() {
 
 function SignOut() {
   return auth.currentUser && (
-    <button onClick={() => auth.signOut()}>Sign Out</button>
+    <button onClick={() => auth.signOut()} className='rounded-full bg-green-700 hover:bg-green-600 transition ease-in duration-200 hover:outline hover:outline-2 hover:outline-white my-2'>Sign Out</button>
   );
 }
 
@@ -78,6 +79,7 @@ function ChatRoom() {
       uid,
       photoURL
     });
+
     setFormValue('');
 
     dummy.current.scrollIntoView({behavior: 'smooth'});
@@ -85,12 +87,12 @@ function ChatRoom() {
 
   return (
     <>
-      <main>
+      <main style={{border: "1px solid red"}}>
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-        <div ref={dummy}></div>
+        <span ref={dummy}></span>
       </main>
-      <form onSubmit={sendMessage}>
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
+      <form onSubmit={sendMessage} className="flex justify-center self-center mx-auto">
+        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Message something" />
         <button type="submit" disabled={!formValue}>Send</button>
       </form>
     </>
@@ -102,7 +104,7 @@ function ChatMessage(props) {
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL} />
+      <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt="user image"/>
       <p>{text}</p>
     </div>
   );

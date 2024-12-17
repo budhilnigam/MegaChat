@@ -101,8 +101,9 @@ button:disabled {
 
 
 .sign-in {
-  color: #282c34;
-  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   max-width: 400px;
   margin: 0 auto;
 }
